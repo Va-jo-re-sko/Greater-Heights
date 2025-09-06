@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Greater Heights - Sign Up</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+    --orange: #FF7B25;   /* Tangerine */
+    --orange-dark: #E65F00;
+    --black: #111;
+    --white: #fff;
+    --gray-light: #f5f5f5;
+    --gray-dark: #444;
+    --error: #e74c3c;
+    --success: #2ecc71;
+}
+
+* {margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+
+body {
+    background: linear-gradient(135deg, var(--black) 0%, #222 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    max-width: 900px;
+    background: var(--white);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    flex-wrap: wrap;
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform:translateY(20px);}
+    to {opacity:1; transform:translateY(0);}
+}
+
+/* Left Panel */
+.left-panel {
+    flex:1 1 350px;
+    background: linear-gradient(to bottom right, var(--orange), var(--orange-dark));
+    color: var(--white);
+    padding: 40px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    position:relative;
+}
+
+.left-panel::before,
+.left-panel::after {
+    content:"";
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,0.1);
+}
+.left-panel::before { width:180px; height:180px; top:-40px; left:-40px;}
+.left-panel::after { width:140px; height:140px; bottom:-40px; right:-40px;}
+
+.app-name {font-size:26px; font-weight:700; margin-bottom:10px;}
+.app-tagline {font-size:16px; margin-bottom:25px; color:#ffe6d5;}
+.feature-list {list-style:none; margin-top:15px;}
+.feature-list li {margin-bottom:12px; display:flex; align-items:center; font-size:15px; transition: transform 0.2s;}
+.feature-list li:hover {transform: translateX(5px);}
+.feature-list i {background:rgba(255,255,255,0.2); width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-right:10px; transition: background 0.3s;}
+.feature-list li:hover i {background: rgba(255,255,255,0.3);}
+
+/* Right Panel */
+.right-panel {flex:1 1 350px; padding:35px; display:flex; flex-direction:column; justify-content:center; background: var(--white);}
+.welcome-text h2 {font-size:24px; color: var(--black); margin-bottom:8px;}
+.welcome-text p {color: var(--gray-dark); margin-bottom:25px;}
+.form-group {margin-bottom:18px;}
+.form-group label {display:block; margin-bottom:6px; color: var(--black); font-weight:500;}
+.input-with-icon {position:relative;}
+.input-with-icon i {position:absolute; left:15px; top:50%; transform:translateY(-50%); color:#777; transition: color 0.3s;}
+.input-with-icon input, .input-with-icon select {
+    width:100%; padding:14px 14px 14px 42px; border:1px solid #ddd; border-radius:8px; font-size:15px; background: var(--gray-light); color: var(--black); transition: all 0.3s;
+}
+.input-with-icon input:focus, .input-with-icon select:focus {border-color: var(--orange); outline:none; box-shadow:0 0 0 2px rgba(255,123,37,0.25);}
+.input-with-icon input:focus + i, .input-with-icon select:focus + i {color: var(--orange);}
+.toggle-password {position:absolute; right:15px; top:50%; transform:translateY(-50%); color:#777; cursor:pointer;}
+.toggle-password:hover {color: var(--orange);}
+.message {padding:12px; border-radius:8px; margin-bottom:18px; font-size:14px; display:none;}
+.error {background-color:#FFEBEE; color: var(--error); border:1px solid #FFCDD2;}
+.success {background-color:#E8F5E9; color: var(--success); border:1px solid #C8E6C9;}
+.btn-signup {
+    background: var(--orange); color: var(--white); border:none; padding:14px; border-radius:8px; font-size:16px; font-weight:600; cursor:pointer; width:100%; transition: all 0.3s; position:relative; overflow:hidden;
+}
+.btn-signup:hover {background: var(--orange-dark); transform:translateY(-2px); box-shadow:0 5px 15px rgba(230,95,0,0.3);}
+.btn-signup:active {transform:translateY(0);}
+
+/* Category specific fields */
+.category-fields {display:none; margin-bottom:18px;}
+@media (max-width:768px){
+    .container {flex-direction: column; border-radius:10px;}
+    .left-panel, .right-panel {padding:25px; flex:1 1 100%;}
+    .app-name {font-size:22px;}
+    .welcome-text h2 {font-size:20px;}
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="left-panel">
+        <h1 class="app-name">Greater Heights</h1>
+        <p class="app-tagline">Reach your academic potential with our learning platform</p>
+        <ul class="feature-list">
+            <li><i class="fas fa-graduation-cap"></i> Comprehensive learning resources</li>
+            <li><i class="fas fa-chart-line"></i> Track your progress and growth</li>
+            <li><i class="fas fa-users"></i> Connect with educators and peers</li>
+            <li><i class="fas fa-trophy"></i> Achieve your academic goals</li>
+        </ul>
+    </div>
+
+    <div class="right-panel">
+        <div class="welcome-text">
+            <h2>Create Your Account</h2>
+            <p>Fill out the details below to sign up</p>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="category">Category</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-users"></i>
+                    <select id="category" name="category" required>
+                        <option value="">Select category</option>
+                        <option value="admin">Administration</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="nonstaff">Non-Staff</option>
+                        <option value="parent">Parent</option>
+                        <option value="student">Student</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-with-icon">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                </div>
+            </div>
+
+            <!-- Category-specific fields -->
+            <div id="admin-fields" class="category-fields">
+                <div class="form-group">
+                    <label for="admincode">Admin Code</label>
+                    <input type="text" id="admincode" name="admincode" placeholder="Enter admin code">
+                </div>
+            </div>
+
+            <div id="teacher-fields" class="category-fields">
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="Enter your teaching subject">
+                </div>
+            </div>
+
+            <div id="student-fields" class="category-fields">
+                <div class="form-group">
+                    <label for="class">Class</label>
+                    <input type="text" id="class" name="class" placeholder="Enter your class">
+                </div>
+            </div>
+
+            <div id="parent-fields" class="category-fields">
+                <div class="form-group">
+                    <label for="childname">Child's Name</label>
+                    <input type="text" id="childname" name="childname" placeholder="Enter your child's name">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn-signup">Sign Up</button>
+            </div>
+        </form>
+
+        <div class="signup-link">
+            Already have an account? <a href="login.html">Sign in</a>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const signupForm = document.getElementById('signupForm');
+    const togglePassword = document.getElementById('togglePassword');
+    const messageEl = document.getElementById('message');
+    const categorySelect = document.getElementById('category');
+
+    const categoryFields = {
+        admin: document.getElementById('admin-fields'),
+        teacher: document.getElementById('teacher-fields'),
+        student: document.getElementById('student-fields'),
+        parent: document.getElementById('parent-fields')
+    };
+
+    // Toggle category-specific fields
+    categorySelect.addEventListener('change', function() {
+        Object.values(categoryFields).forEach(div => div.style.display = 'none');
+        const selected = categorySelect.value;
+        if (categoryFields[selected]) {
+            categoryFields[selected].style.display = 'block';
+        }
+    });
+
+    // Toggle password visibility
+    togglePassword.addEventListener('click', function() {
+        const passwordInput = document.getElementById('password');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            togglePassword.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            togglePassword.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    });
+
+    // Form submission
+    signupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const formData = new FormData(signupForm);
+
+        fetch('signup_process.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            showMessage(data.message, data.status);
+            if (data.status === 'success') {
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 1500);
+            }
+        })
+        .catch(error => {
+            showMessage('Network error. Please try again.', 'error');
+            console.error(error);
+        });
+    });
+
+    function showMessage(text, type) {
+        messageEl.textContent = text;
+        messageEl.className = `message ${type}`;
+        messageEl.style.display = 'block';
+        setTimeout(() => {
+            messageEl.style.display = 'none';
+        }, 5000);
+    }
+});
+</script>
+</body>
+</html>

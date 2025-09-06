@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Greater Heights - Sign In</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --orange: #FF7B25;   /* Tangerine */
+      --orange-dark: #E65F00;
+      --black: #111;
+      --white: #fff;
+      --gray-light: #f5f5f5;
+      --gray-dark: #444;
+      --error: #e74c3c;
+      --success: #2ecc71;
+    }
+
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, var(--black) 0%, #222 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+    }
+
+    .container {
+      display: flex;
+      width: 100%;
+      max-width: 1200px;
+      background: var(--white);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      flex-wrap: wrap;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Left Panel */
+    .left-panel {
+      flex: 1 1 400px;
+      background: linear-gradient(to bottom right, var(--orange), var(--orange-dark));
+      color: var(--white);
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .left-panel::before,
+    .left-panel::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .left-panel::before { width: 180px; height: 180px; top: -40px; left: -40px; }
+    .left-panel::after { width: 140px; height: 140px; bottom: -40px; right: -40px; }
+
+    .app-name { font-size: 28px; font-weight: 700; margin-bottom: 10px; }
+    .app-tagline { font-size: 16px; margin-bottom: 25px; color: #ffe6d5; }
+
+    .feature-list { list-style: none; margin-top: 15px; }
+    .feature-list li {
+      margin-bottom: 12px; display: flex; align-items: center; font-size: 15px;
+      transition: transform 0.2s;
+    }
+    .feature-list li:hover { transform: translateX(5px); }
+    .feature-list i {
+      background: rgba(255, 255, 255, 0.2);
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin-right: 10px;
+      transition: background 0.3s;
+    }
+    .feature-list li:hover i { background: rgba(255, 255, 255, 0.3); }
+
+    /* Right Panel */
+    .right-panel {
+      flex: 1 1 400px;
+      padding: 35px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: #fafafa;
+    }
+
+    .welcome-text h2 { font-size: 24px; color: var(--black); margin-bottom: 8px; }
+    .welcome-text p { color: var(--gray-dark); margin-bottom: 25px; }
+
+    .form-group { margin-bottom: 18px; }
+    .form-group label {
+      display: block; margin-bottom: 6px;
+      color: var(--black); font-weight: 500;
+    }
+
+    .input-with-icon { position: relative; }
+    .input-with-icon i {
+      position: absolute; left: 15px; top: 50%;
+      transform: translateY(-50%); color: #777;
+      transition: color 0.3s;
+    }
+    .input-with-icon input {
+      width: 100%;
+      padding: 14px 14px 14px 42px;
+      border: 1px solid #ddd; border-radius: 8px;
+      font-size: 15px;
+      background: var(--gray-light); color: var(--black);
+      transition: all 0.3s;
+    }
+    .input-with-icon input:focus {
+      border-color: var(--orange);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(255,123,37,0.25);
+    }
+    .input-with-icon input:focus + i { color: var(--orange); }
+    .input-with-icon input.error {
+      border-color: var(--error);
+      box-shadow: 0 0 0 2px rgba(231,76,60,0.25);
+    }
+
+    .toggle-password {
+      position: absolute; right: 15px; top: 50%;
+      transform: translateY(-50%); color: #777;
+      cursor: pointer;
+    }
+    .toggle-password:hover { color: var(--orange); }
+
+    .remember-forgot {
+      display: flex; justify-content: space-between;
+      margin-bottom: 18px; font-size: 14px; align-items: center;
+    }
+    .remember { display: flex; align-items: center; }
+    .remember input { margin-right: 8px; accent-color: var(--orange); }
+    .forgot-password {
+      color: var(--orange); text-decoration: none; font-weight: 500;
+      transition: color 0.3s;
+    }
+    .forgot-password:hover { color: var(--orange-dark); text-decoration: underline; }
+
+    .btn-login {
+      background: var(--orange); color: var(--white);
+      border: none; padding: 14px;
+      border-radius: 8px; font-size: 16px; font-weight: 600;
+      cursor: pointer; width: 100%; transition: all 0.3s;
+      position: relative; overflow: hidden;
+    }
+    .btn-login:hover {
+      background: var(--orange-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(230,95,0,0.3);
+    }
+    .btn-login:active { transform: translateY(0); }
+
+    .separator {
+      display: flex; align-items: center; margin: 18px 0; color: #777;
+    }
+    .separator .line { flex: 1; height: 1px; background: #ddd; }
+    .separator .text { padding: 0 12px; font-size: 14px; }
+
+    .social-login {
+      display: flex; justify-content: center; gap: 12px; margin-bottom: 18px;
+    }
+    .social-btn {
+      width: 45px; height: 45px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--gray-light); color: var(--black);
+      border: 1px solid #ddd; cursor: pointer; transition: all 0.3s;
+    }
+    .social-btn:hover {
+      background: var(--orange); color: var(--white);
+      border-color: var(--orange-dark); transform: translateY(-2px);
+    }
+
+    .signup-link { text-align: center; margin-top: 15px; color: var(--black); font-size: 14px; }
+    .signup-link a {
+      color: var(--orange); text-decoration: none; font-weight: 600; transition: color 0.3s;
+    }
+    .signup-link a:hover { color: var(--orange-dark); text-decoration: underline; }
+
+    .message {
+      padding: 12px; border-radius: 8px; margin-bottom: 18px;
+      font-size: 14px; display: none;
+    }
+    .error { background-color: #FFEBEE; color: var(--error); border: 1px solid #FFCDD2; }
+    .success { background-color: #E8F5E9; color: var(--success); border: 1px solid #C8E6C9; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container { flex-direction: column; border-radius: 10px; }
+      .left-panel, .right-panel { padding: 25px; flex: 1 1 100%; }
+      .app-name { font-size: 22px; }
+      .welcome-text h2 { font-size: 20px; }
+    }
+    @media (max-width: 360px) {
+      .social-btn { width: 38px; height: 38px; font-size: 13px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-panel">
+      <h1 class="app-name">Greater Heights</h1>
+      <p class="app-tagline">Reach your academic potential with our learning platform</p>
+      <ul class="feature-list">
+        <li><i class="fas fa-graduation-cap"></i> Comprehensive learning resources</li>
+        <li><i class="fas fa-chart-line"></i> Track your progress and growth</li>
+        <li><i class="fas fa-users"></i> Connect with educators and peers</li>
+        <li><i class="fas fa-trophy"></i> Achieve your academic goals</li>
+      </ul>
+    </div>
+
+    <div class="right-panel">
+      <div class="welcome-text">
+        <h2>Sign In to Your Account</h2>
+        <p>Enter your credentials to continue your journey</p>
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-with-icon">
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="email" placeholder="Enter your email" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-with-icon">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password" placeholder="Enter your password" required>
+            <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+          </div>
+        </div>
+
+        <div class="remember-forgot">
+          <div class="remember">
+            <input type="checkbox" id="remember">
+            <label for="remember">Remember me</label>
+          </div>
+          <a href="#" class="forgot-password">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn-login">Sign In</button>
+      </form>
+
+      <div class="separator">
+        <div class="line"></div>
+        <div class="text">or continue with</div>
+        <div class="line"></div>
+      </div>
+
+      <div class="social-login">
+        <div class="social-btn"><i class="fab fa-google"></i></div>
+        <div class="social-btn"><i class="fab fa-facebook-f"></i></div>
+        <div class="social-btn"><i class="fab fa-microsoft"></i></div>
+      </div>
+
+      <div class="signup-link">
+        Don't have an account? <a href="sign_up.html">Sign up now</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+   document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('loginForm');
+    const togglePassword = document.getElementById('togglePassword');
+    const messageEl = document.getElementById('message');
+    
+    // Toggle password visibility
+    togglePassword.addEventListener('click', function() {
+        const passwordInput = document.getElementById('password');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            togglePassword.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            togglePassword.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    });
+
+    // Form submission
+    loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = new FormData(loginForm);
+
+        fetch('login_process.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            showMessage(data.message, data.status);
+
+            if (data.status === 'success') {
+                // Redirect to dashboard after 1.5 seconds
+                setTimeout(() => {
+                    window.location.href = 'dashboard.php';
+                }, 1500);
+            }
+        })
+        .catch(error => {
+            showMessage('Network error. Please try again.', 'error');
+            console.error(error);
+        });
+    });
+
+    function showMessage(text, type) {
+        messageEl.textContent = text;
+        messageEl.className = `message ${type}`;
+        messageEl.style.display = 'block';
+
+        setTimeout(() => {
+            messageEl.style.display = 'none';
+        }, 5000);
+    }
+});
+  </script>
+</body>
+</html>
