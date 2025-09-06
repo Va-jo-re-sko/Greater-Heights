@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 :root {
-    --orange: #FF7B25;   /* Tangerine */
+    --orange: #FF7B25;
     --orange-dark: #E65F00;
     --black: #111;
     --white: #fff;
@@ -17,7 +17,7 @@
     --success: #2ecc71;
 }
 
-* {margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+* { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
 body {
     background: linear-gradient(135deg, var(--black) 0%, #222 100%);
@@ -40,12 +40,8 @@ body {
     animation: fadeIn 0.5s ease-out;
 }
 
-@keyframes fadeIn {
-    from {opacity:0; transform:translateY(20px);}
-    to {opacity:1; transform:translateY(0);}
-}
+@keyframes fadeIn { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
 
-/* Left Panel */
 .left-panel {
     flex:1 1 350px;
     background: linear-gradient(to bottom right, var(--orange), var(--orange-dark));
@@ -75,7 +71,6 @@ body {
 .feature-list i {background:rgba(255,255,255,0.2); width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-right:10px; transition: background 0.3s;}
 .feature-list li:hover i {background: rgba(255,255,255,0.3);}
 
-/* Right Panel */
 .right-panel {flex:1 1 350px; padding:35px; display:flex; flex-direction:column; justify-content:center; background: var(--white);}
 .welcome-text h2 {font-size:24px; color: var(--black); margin-bottom:8px;}
 .welcome-text p {color: var(--gray-dark); margin-bottom:25px;}
@@ -93,20 +88,11 @@ body {
 .message {padding:12px; border-radius:8px; margin-bottom:18px; font-size:14px; display:none;}
 .error {background-color:#FFEBEE; color: var(--error); border:1px solid #FFCDD2;}
 .success {background-color:#E8F5E9; color: var(--success); border:1px solid #C8E6C9;}
-.btn-signup {
-    background: var(--orange); color: var(--white); border:none; padding:14px; border-radius:8px; font-size:16px; font-weight:600; cursor:pointer; width:100%; transition: all 0.3s; position:relative; overflow:hidden;
-}
+.btn-signup {background: var(--orange); color: var(--white); border:none; padding:14px; border-radius:8px; font-size:16px; font-weight:600; cursor:pointer; width:100%; transition: all 0.3s; position:relative; overflow:hidden;}
 .btn-signup:hover {background: var(--orange-dark); transform:translateY(-2px); box-shadow:0 5px 15px rgba(230,95,0,0.3);}
 .btn-signup:active {transform:translateY(0);}
-
-/* Category specific fields */
 .category-fields {display:none; margin-bottom:18px;}
-@media (max-width:768px){
-    .container {flex-direction: column; border-radius:10px;}
-    .left-panel, .right-panel {padding:25px; flex:1 1 100%;}
-    .app-name {font-size:22px;}
-    .welcome-text h2 {font-size:20px;}
-}
+@media (max-width:768px){ .container {flex-direction: column; border-radius:10px;} .left-panel, .right-panel {padding:25px; flex:1 1 100%;} .app-name {font-size:22px;} .welcome-text h2 {font-size:20px;} }
 </style>
 </head>
 <body>
@@ -225,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
         parent: document.getElementById('parent-fields')
     };
 
-    // Toggle category-specific fields
+    // Show/hide category-specific fields
     categorySelect.addEventListener('change', function() {
         Object.values(categoryFields).forEach(div => div.style.display = 'none');
         const selected = categorySelect.value;
@@ -258,6 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             showMessage(data.message, data.status);
+
             if (data.status === 'success') {
                 setTimeout(() => {
                     window.location.href = 'login.html';
@@ -270,10 +257,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Show messages
     function showMessage(text, type) {
         messageEl.textContent = text;
         messageEl.className = `message ${type}`;
         messageEl.style.display = 'block';
+
         setTimeout(() => {
             messageEl.style.display = 'none';
         }, 5000);

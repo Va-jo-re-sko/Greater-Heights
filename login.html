@@ -281,7 +281,7 @@
   </div>
 
   <script>
-   document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     const togglePassword = document.getElementById('togglePassword');
     const messageEl = document.getElementById('message');
@@ -302,7 +302,12 @@
     loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
+        // Create FormData
         const formData = new FormData(loginForm);
+        
+        // Include the "remember" checkbox value
+        const rememberCheckbox = document.getElementById('remember');
+        formData.set('remember', rememberCheckbox.checked ? '1' : '');
 
         fetch('login_process.php', {
             method: 'POST',
@@ -335,6 +340,6 @@
         }, 5000);
     }
 });
-  </script>
+</script>
 </body>
 </html>

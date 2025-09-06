@@ -2,6 +2,10 @@
 session_start();
 session_unset();
 session_destroy();
-header('Location: login.html');
+
+// Remove remember me cookie
+setcookie('remember_email', '', time() - 3600, "/");
+
+header("Location: login.html");
 exit;
 ?>
