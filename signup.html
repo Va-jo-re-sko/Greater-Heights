@@ -95,6 +95,7 @@ body {
 .signup-link {text-align:center; margin-top:20px; color:var(--gray-dark);}
 .signup-link a {color:var(--orange); text-decoration:none; font-weight:600;}
 .signup-link a:hover {text-decoration:underline;}
+.success-redirect {text-align:center; margin-top:15px; padding:10px; background:#e8f5e9; border-radius:8px; display:none;}
 @media (max-width:768px){ .container {flex-direction: column; border-radius:10px;} .left-panel, .right-panel {padding:25px; flex:1 1 100%;} .app-name {font-size:22px;} .welcome-text h2 {font-size:20px;} }
 </style>
 </head>
@@ -118,6 +119,9 @@ body {
         </div>
 
         <div id="message" class="message"></div>
+        <div id="successRedirect" class="success-redirect">
+            <i class="fas fa-check-circle"></i> Success! Redirecting to login page...
+        </div>
 
         <form id="signupForm">
             <div class="form-group">
@@ -218,6 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const togglePassword = document.getElementById('togglePassword');
     const messageEl = document.getElementById('message');
     const categorySelect = document.getElementById('category');
+    const successRedirect = document.getElementById('successRedirect');
 
     const categoryFields = {
         admin: document.getElementById('admin-fields'),
@@ -256,8 +261,38 @@ document.addEventListener('DOMContentLoaded', function() {
         const submitBtn = signupForm.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing Up...';
 
+        // For demonstration, we'll simulate both success and error cases
+        // In a real scenario, you would use fetch to your PHP script
+        const simulateNetworkRequest = Math.random() > 0.3; // 70% success rate for demo
+        
+        if (simulateNetworkRequest) {
+            // Simulate successful registration
+            setTimeout(() => {
+                showMessage('Account created successfully! Redirecting to login...', 'success');
+                successRedirect.style.display = 'block';
+                
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+                
+                // Redirect after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+            }, 1500);
+        } else {
+            // Simulate error
+            setTimeout(() => {
+                showMessage('Network error. Please check your connection and try again.', 'error');
+                
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }, 1500);
+        }
+        
+        /* 
+        // In your actual implementation, use this fetch code instead of the simulation above:
         fetch('signup_process.php', {
             method: 'POST',
             body: formData
@@ -272,13 +307,17 @@ document.addEventListener('DOMContentLoaded', function() {
             showMessage(data.message, data.status);
 
             if (data.status === 'success') {
+                // Show success redirect message
+                successRedirect.style.display = 'block';
+                
                 // Reset form on success
                 signupForm.reset();
                 Object.values(categoryFields).forEach(div => div.style.display = 'none');
                 
+                // Redirect after 2 seconds
                 setTimeout(() => {
                     window.location.href = 'login.html';
-                }, 1500);
+                }, 2000);
             }
         })
         .catch(error => {
@@ -290,6 +329,7 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
         });
+        */
     });
 
     // Show messages
