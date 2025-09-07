@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Greater Heights</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --orange: #FF7B25;
+      --orange-dark: #E65F00;
+      --black: #111;
+      --white: #fff;
+      --gray-light: #f5f5f5;
+      --gray-dark: #444;
+    }
+
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { display:flex; min-height:100vh; background: var(--gray-light); flex-wrap: wrap; }
+
+    /* Sidebar */
+    .sidebar {
+      flex: 0 0 240px;
+      background: var(--black);
+      color: var(--white);
+      padding: 20px;
+    }
+    .sidebar h2 {
+      margin-bottom: 25px;
+      font-size: 20px;
+      text-align:center;
+      color: var(--orange);
+    }
+    .sidebar ul { list-style:none; }
+    .sidebar ul li { margin: 15px 0; }
+    .sidebar ul li a {
+      text-decoration:none;
+      color: var(--white);
+      display:flex; align-items:center;
+      padding: 10px;
+      border-radius:6px;
+      transition: background 0.3s;
+    }
+    .sidebar ul li a i { margin-right:10px; color: var(--orange); }
+    .sidebar ul li a:hover { background: var(--orange-dark); }
+
+    /* Main */
+    .main {
+      flex: 1;
+      padding:20px;
+    }
+    header {
+      display:flex; justify-content:space-between; align-items:center;
+      margin-bottom:20px;
+      flex-wrap: wrap;
+    }
+    header h1 { font-size:24px; color: var(--orange-dark); }
+    header .user-info { font-weight:600; color: var(--gray-dark); }
+
+    /* Cards */
+    .cards {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+      gap:20px;
+    }
+    .card {
+      background: var(--white);
+      padding:20px;
+      border-radius:10px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+      display:flex; align-items:center; justify-content:space-between;
+      transition: transform 0.2s;
+    }
+    .card:hover { transform: translateY(-3px); }
+    .card i { font-size:30px; color: var(--orange); }
+    .card h3 { font-size:18px; margin-bottom:5px; }
+    .card p { color: var(--gray-dark); }
+
+    /* Announcements */
+    .announcements {
+      margin-top:30px;
+      background: var(--white);
+      padding:20px;
+      border-radius:10px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    }
+    .announcements h2 { margin-bottom:15px; color: var(--orange-dark); }
+    .announcements ul { list-style:disc; padding-left:20px; color: var(--gray-dark); }
+    .announcements ul li { margin-bottom:8px; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body { flex-direction: column; }
+      .sidebar {
+        flex: 1 1 100%;
+        text-align: center;
+      }
+      .sidebar ul li a { justify-content: center; }
+      .main { margin-top: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Admin Panel</h2>
+    <ul>
+      <li><a href="#"><i class="fa fa-users"></i> Manage Users</a></li>
+      <li><a href="#"><i class="fa fa-calendar"></i> Academic Calendar</a></li>
+      <li><a href="#"><i class="fa fa-bullhorn"></i> Announcements</a></li>
+      <li><a href="#"><i class="fa fa-chart-line"></i> Reports</a></li>
+      <li><a href="#"><i class="fa fa-cog"></i> Settings</a></li>
+      <li><a href="#"><i class="fa fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <header>
+      <h1>Greater Heights - Admin Dashboard</h1>
+      <div class="user-info">Welcome, Admin</div>
+    </header>
+
+    <div class="cards">
+      <div class="card">
+        <div>
+          <h3>Total Students</h3>
+          <p>1,200</p>
+        </div>
+        <i class="fa fa-user-graduate"></i>
+      </div>
+      <div class="card">
+        <div>
+          <h3>Total Teachers</h3>
+          <p>85</p>
+        </div>
+        <i class="fa fa-chalkboard-teacher"></i>
+      </div>
+      <div class="card">
+        <div>
+          <h3>Active Parents</h3>
+          <p>950</p>
+        </div>
+        <i class="fa fa-user-friends"></i>
+      </div>
+      <div class="card">
+        <div>
+          <h3>Non-Staff</h3>
+          <p>30</p>
+        </div>
+        <i class="fa fa-briefcase"></i>
+      </div>
+    </div>
+
+    <div class="announcements">
+      <h2>Recent Announcements</h2>
+      <ul>
+        <li>Term 2 begins on September 15th.</li>
+        <li>Staff meeting scheduled for September 10th.</li>
+        <li>New digital library resources are now available.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
