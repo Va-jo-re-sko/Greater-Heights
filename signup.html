@@ -92,6 +92,9 @@ body {
 .btn-signup:hover {background: var(--orange-dark); transform:translateY(-2px); box-shadow:0 5px 15px rgba(230,95,0,0.3);}
 .btn-signup:active {transform:translateY(0);}
 .category-fields {display:none; margin-bottom:18px;}
+.signup-link {text-align:center; margin-top:20px; color:var(--gray-dark);}
+.signup-link a {color:var(--orange); text-decoration:none; font-weight:600;}
+.signup-link a:hover {text-decoration:underline;}
 @media (max-width:768px){ .container {flex-direction: column; border-radius:10px;} .left-panel, .right-panel {padding:25px; flex:1 1 100%;} .app-name {font-size:22px;} .welcome-text h2 {font-size:20px;} }
 </style>
 </head>
@@ -161,28 +164,40 @@ body {
             <div id="admin-fields" class="category-fields">
                 <div class="form-group">
                     <label for="admincode">Admin Code</label>
-                    <input type="text" id="admincode" name="admincode" placeholder="Enter admin code">
+                    <div class="input-with-icon">
+                        <i class="fas fa-key"></i>
+                        <input type="text" id="admincode" name="admincode" placeholder="Enter admin code">
+                    </div>
                 </div>
             </div>
 
             <div id="teacher-fields" class="category-fields">
                 <div class="form-group">
                     <label for="subject">Subject</label>
-                    <input type="text" id="subject" name="subject" placeholder="Enter your teaching subject">
+                    <div class="input-with-icon">
+                        <i class="fas fa-book"></i>
+                        <input type="text" id="subject" name="subject" placeholder="Enter your teaching subject">
+                    </div>
                 </div>
             </div>
 
             <div id="student-fields" class="category-fields">
                 <div class="form-group">
                     <label for="class">Class</label>
-                    <input type="text" id="class" name="class" placeholder="Enter your class">
+                    <div class="input-with-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                        <input type="text" id="class" name="class" placeholder="Enter your class">
+                    </div>
                 </div>
             </div>
 
             <div id="parent-fields" class="category-fields">
                 <div class="form-group">
                     <label for="childname">Child's Name</label>
-                    <input type="text" id="childname" name="childname" placeholder="Enter your child's name">
+                    <div class="input-with-icon">
+                        <i class="fas fa-child"></i>
+                        <input type="text" id="childname" name="childname" placeholder="Enter your child's name">
+                    </div>
                 </div>
             </div>
 
@@ -236,24 +251,44 @@ document.addEventListener('DOMContentLoaded', function() {
     signupForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const formData = new FormData(signupForm);
+        
+        // Show loading state
+        const submitBtn = signupForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
         fetch('signup_process.php', {
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             showMessage(data.message, data.status);
 
             if (data.status === 'success') {
+                // Reset form on success
+                signupForm.reset();
+                Object.values(categoryFields).forEach(div => div.style.display = 'none');
+                
                 setTimeout(() => {
                     window.location.href = 'login.html';
                 }, 1500);
             }
         })
         .catch(error => {
-            showMessage('Network error. Please try again.', 'error');
-            console.error(error);
+            console.error('Error:', error);
+            showMessage('Network error. Please check your connection and try again.', 'error');
+        })
+        .finally(() => {
+            // Reset button state
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
         });
     });
 
@@ -263,9 +298,12 @@ document.addEventListener('DOMContentLoaded', function() {
         messageEl.className = `message ${type}`;
         messageEl.style.display = 'block';
 
-        setTimeout(() => {
-            messageEl.style.display = 'none';
-        }, 5000);
+        // Only auto-hide success messages
+        if (type === 'success') {
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, 5000);
+        }
     }
 });
 </script>
