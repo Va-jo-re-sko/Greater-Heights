@@ -1,112 +1,1039 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Greater Heights - Sign In</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <style>
-    :root {
-      --orange: #FF7B25;
-      --orange-dark: #E65F00;
-      --black: #111;
-      --white: #fff;
-      --gray-light: #f5f5f5;
-      --gray-dark: #444;
-      --error: #e74c3c;
-      --success: #2ecc71;
-      --warning: #f39c12;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greater Heights - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --orange: #FF7B25;
+            --orange-dark: #E65F00;
+            --black: #111;
+            --white: #fff;
+            --gray-light: #f5f5f5;
+            --gray-dark: #444;
+            --admin: #3498db;
+            --teacher: #9b59b6;
+            --student: #2ecc71;
+            --parent: #e74c3c;
+            --nonstaff: #f39c12;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+        }
 
-    * {
-      margin: 0; padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    body {
-      background: linear-gradient(135deg, var(--black) 0%, #222 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 15px;
-    }
+        body {
+            background: var(--gray-light);
+            color: var(--black);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
 
-    .container {
-      display: flex;
-      width: 100%;
-      max-width: 1200px;
-      background: var(--white);
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-      flex-wrap: wrap;
-      animation: fadeIn 0.5s ease-out;
-    }
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background: var(--black);
+            color: var(--white);
+            padding: 20px 0;
+            transition: all 0.3s;
+        }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
 
-    /* Left Panel */
-    .left-panel {
-      flex: 1 1 400px;
-      background: linear-gradient(to bottom right, var(--orange), var(--orange-dark));
-      color: var(--white);
-      padding: 40px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
 
-    .left-panel::before,
-    .left-panel::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      z-index: 1;
-    }
-    .left-panel::before { width: 180px; height: 180px; top: -40px; left: -40px; }
-    .left-panel::after { width: 140px; height: 140px; bottom: -40px; right: -40px; }
+        .logo h1 {
+            font-size: 20px;
+        }
 
-    .app-name { 
-      font-size: 28px; 
-      font-weight: 700; 
-      margin-bottom: 10px; 
-      position: relative;
-      z-index: 2;
-    }
-    
-    .app-tagline { 
-      font-size: 16px; 
-      margin-bottom: 25px; 
-      color: #ffe6d5; 
-      position: relative;
-      z-index: 2;
-    }
+        .user-info {
+            padding: 15px 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
 
-    .feature-list { 
-      list-style: none; 
-      margin-top: 15px; 
-      position: relative;
-      z-index: 2;
-    }
-    
-    .feature-list li {
-      margin-bottom: 12px; 
-      display: flex; 
-      align-items: center; 
-      font-size: 15px;
-      transition: transform 0.2s;
-    }
-    
-    .feature-list li:hover { 
-      transform: translateX(5px); 
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin: 0 auto 10px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0 10px;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+        }
+
+        .sidebar-menu i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .top-header {
+            background: var(--white);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--gray-light);
+            border-radius: 20px;
+            padding: 8px 15px;
+            width: 300px;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            flex: 1;
+            padding: 5px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .notification-btn, .messages-btn {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 30px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .welcome-section {
+            background: linear-gradient(to right, var(--orange), var(--orange-dark));
+            color: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .welcome-section h2 {
+            margin-bottom: 10px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gray-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            background: var(--gray-light);
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray-dark);
+        }
+
+        .activity-list {
+            list-style: none;
+        }
+
+        .activity-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .activity-list li:last-child {
+            border-bottom: none;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--orange);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--orange-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        /* Category-specific styles */
+        .admin-badge { background: var(--admin); }
+        .teacher-badge { background: var(--teacher); }
+        .student-badge { background: var(--student); }
+        .parent-badge { background: var(--parent); }
+        .nonstaff-badge { background: var(--nonstaff); }
+
+        .admin-card h3, .admin-stat .stat-number { color: var(--admin); }
+        .teacher-card h3, .teacher-stat .stat-number { color: var(--teacher); }
+        .student-card h3, .student-stat .stat-number { color: var(--student); }
+        .parent-card h3, .parent-stat .stat-number { color: var(--parent); }
+        .nonstaff-card h3, .nonstaff-stat .stat-number { color: var(--nonstaff); }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 12px;
+            width: 500px;
+            max-width: 90%;
+            padding: 25px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+            }
+            .sidebar .logo h1, .sidebar .user-info div, .sidebar-menu span {
+                display: none;
+            }
+            .sidebar-header {
+                text-align: center;
+                padding: 15px 10px;
+            }
+            .sidebar-menu {
+                padding: 0 5px;
+            }
+            .sidebar-menu a {
+                justify-content: center;
+                padding: 15px 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            .top-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .search-box {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <h1>Greater Heights</h1>
+            </div>
+        </div>
+        
+        <div class="user-info">
+            <div class="user-avatar">
+                <span id="userInitials">U</span>
+            </div>
+            <div>
+                <div id="userName">User Name</div>
+                <div id="userEmail">user@example.com</div>
+                <div class="category-badge" id="categoryBadge">Category</div>
+            </div>
+        </div>
+
+        <ul class="sidebar-menu" id="sidebarMenu">
+            <!-- Menu items will be dynamically populated based on user category -->
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Header -->
+        <div class="top-header">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="header-actions">
+                <div class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                <div class="messages-btn">
+                    <i class="fas fa-envelope"></i>
+                    <span class="notification-badge">5</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content">
+            <section class="welcome-section">
+                <h2>Welcome, <span id="welcomeName">User</span>!</h2>
+                <p id="welcomeMessage">We're glad to have you back. Here's what's happening today.</p>
+            </section>
+
+            <div class="dashboard-grid" id="dashboardGrid">
+                <!-- Dashboard content will be dynamically populated based on user category -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal" id="addUserModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New User</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="addUserForm">
+                <div class="form-group">
+                    <label for="newUserName">Full Name</label>
+                    <input type="text" id="newUserName" required>
+                </div>
+                <div class="form-group">
+                    <label for="newUserEmail">Email</label>
+                    <input type="email" id="newUserEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="newUserCategory">Category</label>
+                    <select id="newUserCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="admin">Administrator</option>
+                        <option value="teacher">Teacher</option>
+                        <option value="student">Student</option>
+                        <option value="parent">Parent</option>
+                        <option value="nonstaff">Non-Staff</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="newUserPassword">Password</label>
+                    <input type="password" id="newUserPassword" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-danger" id="cancelAddUser">Cancel</button>
+                    <button type="submit" class="btn btn-success">Add User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="postDiscussionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Post Discussion</h3>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="postDiscussionForm">
+                <div class="form-group">
+                    <label for="discussionTitle">Title</label>
+                    <input type="text" id="discussionTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="discussionAudience">Audience</label>
+                    <select id="discussionAudience" required>
+                        <option value="">Select Audience</option>
+                        <option value="all">All Users</option>
+                        <option value="admins">Administrators Only</option>
+                        <option value="teachers">Teachers Only</option>
+                        <option value="parents">Parents Only</option>
+                        <option value="students">Students Only</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="discussionContent">Content</label>
+                    <textarea id="discussionContent" rows="5" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-danger" id="cancelPostDiscussion">Cancel</button>
+                    <button type="submit" class="btn btn-success">Post Discussion</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Simulated user data (in a real app, this would come from your backend)
+        const userData = {
+            id: 1,
+            fullname: "John Doe",
+            email: "john.doe@example.com",
+            category: "admin", // Change this to test different dashboards: admin, teacher, student, parent, nonstaff
+            lastLogin: "2023-11-15 14:30:25"
+        };
+
+        // Menu items for each category
+        const menuItems = {
+            admin: [
+                { icon: "fas fa-tachometer-alt", label: "Dashboard", active: true },
+                { icon: "fas fa-users", label: "User Management" },
+                { icon: "fas fa-chart-bar", label: "Reports & Analytics" },
+                { icon: "fas fa-comments", label: "Discussions" },
+                { icon: "fas fa-cog", label: "Settings" }
+            ],
+            teacher: [
+                { icon: "fas fa-tachometer-alt", label: "Dashboard", active: true },
+                { icon: "fas fa-book", label: "My Courses" },
+                { icon: "fas fa-tasks", label: "Assignments" },
+                { icon: "fas fa-chart-line", label: "Student Performance" },
+                { icon: "fas fa-upload", label: "Upload Materials" },
+                { icon: "fas fa-comments", label: "Discussions" }
+            ],
+            student: [
+                { icon: "fas fa-tachometer-alt", label: "Dashboard", active: true },
+                { icon: "fas fa-book", label: "My Courses" },
+                { icon: "fas fa-tasks", label: "Assignments" },
+                { icon: "fas fa-chart-line", label: "My Performance" },
+                { icon: "fas fa-download", label: "Download Materials" },
+                { icon: "fas fa-users", label: "Study Groups" },
+                { icon: "fas fa-calendar", label: "Timetable" }
+            ],
+            parent: [
+                { icon: "fas fa-tachometer-alt", label: "Dashboard", active: true },
+                { icon: "fas fa-user-graduate", label: "Child's Performance" },
+                { icon: "fas fa-receipt", label: "Fee Statements" },
+                { icon: "fas fa-comments", label: "Discussions" },
+                { icon: "fas fa-calendar", label: "School Calendar" }
+            ],
+            nonstaff: [
+                { icon: "fas fa-tachometer-alt", label: "Dashboard", active: true },
+                { icon: "fas fa-download", label: "Download Notes" },
+                { icon: "fas fa-calendar", label: "Events" },
+                { icon: "fas fa-info-circle", label: "School Information" }
+            ]
+        };
+
+        // Dashboard content for each category
+        const dashboardContent = {
+            admin: [
+                {
+                    title: "System Overview",
+                    icon: "fas fa-chart-pie",
+                    content: `
+                        <div class="stats">
+                            <div class="stat-item admin-stat">
+                                <div class="stat-number">256</div>
+                                <div class="stat-label">Total Users</div>
+                            </div>
+                            <div class="stat-item admin-stat">
+                                <div class="stat-number">24</div>
+                                <div class="stat-label">Active Courses</div>
+                            </div>
+                            <div class="stat-item admin-stat">
+                                <div class="stat-number">78%</div>
+                                <div class="stat-label">System Load</div>
+                            </div>
+                            <div class="stat-item admin-stat">
+                                <div class="stat-number">5</div>
+                                <div class="stat-label">Pending Requests</div>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-primary">View Reports</a>
+                    `
+                },
+                {
+                    title: "User Management",
+                    icon: "fas fa-users-cog",
+                    content: `
+                        <p>Manage system users and permissions.</p>
+                        <ul class="activity-list">
+                            <li><i class="fas fa-user-plus"></i> 3 new registrations today</li>
+                            <li><i class="fas fa-user-clock"></i> 5 pending approvals</li>
+                            <li><i class="fas fa-user-edit"></i> Update teacher assignments</li>
+                        </ul>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button class="btn btn-success" id="addUserBtn">Add User</button>
+                            <button class="btn btn-danger">Remove User</button>
+                        </div>
+                    `
+                },
+                {
+                    title: "Recent Activity",
+                    icon: "fas fa-history",
+                    content: `
+                        <ul class="activity-list">
+                            <li><i class="fas fa-user"></i> New teacher registered</li>
+                            <li><i class="fas fa-book"></i> Course Mathematics 101 updated</li>
+                            <li><i class="fas fa-exclamation-triangle"></i> System backup completed</li>
+                            <li><i class="fas fa-envelope"></i> Newsletter sent to all users</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "Discussions",
+                    icon: "fas fa-comments",
+                    content: `
+                        <p>Post announcements and discussions.</p>
+                        <ul class="activity-list">
+                            <li><i class="fas fa-comment"></i> New policy update for teachers</li>
+                            <li><i class="fas fa-comment"></i> Parent meeting scheduled</li>
+                            <li><i class="fas fa-comment"></i> System maintenance notice</li>
+                        </ul>
+                        <button class="btn btn-primary" id="postDiscussionBtn" style="margin-top: 15px;">Post Discussion</button>
+                    `
+                }
+            ],
+            teacher: [
+                {
+                    title: "My Courses",
+                    icon: "fas fa-book-open",
+                    content: `
+                        <div class="stats">
+                            <div class="stat-item teacher-stat">
+                                <div class="stat-number">4</div>
+                                <div class="stat-label">Active Courses</div>
+                            </div>
+                            <div class="stat-item teacher-stat">
+                                <div class="stat-number">62</div>
+                                <div class="stat-label">Total Students</div>
+                            </div>
+                        </div>
+                        <ul class="activity-list">
+                            <li><i class="fas fa-chalkboard"></i> Mathematics 101 - 9:00 AM today</li>
+                            <li><i class="fas fa-chalkboard"></i> Advanced Calculus - 11:00 AM today</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">View All Courses</a>
+                    `
+                },
+                {
+                    title: "Assignments",
+                    icon: "fas fa-tasks",
+                    content: `
+                        <div class="stats">
+                            <div class="stat-item teacher-stat">
+                                <div class="stat-number">3</div>
+                                <div class="stat-label">Pending Grading</div>
+                            </div>
+                            <div class="stat-item teacher-stat">
+                                <div class="stat-number">1</div>
+                                <div class="stat-label">New Submission</div>
+                            </div>
+                        </div>
+                        <ul class="activity-list">
+                            <li><i class="fas fa-file-alt"></i> Calculus Problem Set due tomorrow</li>
+                            <li><i class="fas fa-clock"></i> Algebra Quiz in 2 days</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">Grade Assignments</a>
+                    `
+                },
+                {
+                    title: "Student Performance",
+                    icon: "fas fa-chart-line",
+                    content: `
+                        <p>Overall class performance statistics</p>
+                        <div class="stats">
+                            <div class="stat-item teacher-stat">
+                                <div class="stat-number">84%</div>
+                                <div class="stat-label">Average Score</div>
+                            </div>
+                            <div class="stat-item teacher-stat">
+                                <div class="stat-number">12%</div>
+                                <div class="stat-label">Improvement</div>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-primary">View Analytics</a>
+                    `
+                },
+                {
+                    title: "Upload Materials",
+                    icon: "fas fa-upload",
+                    content: `
+                        <p>Upload files for your students to download.</p>
+                        <ul class="activity-list">
+                            <li><i class="fas fa-file-pdf"></i> Calculus Notes.pdf</li>
+                            <li><i class="fas fa-file-word"></i> Algebra Assignment.docx</li>
+                            <li><i class="fas fa-file-powerpoint"></i> Geometry Presentation.pptx</li>
+                        </ul>
+                        <button class="btn btn-primary" style="margin-top: 15px;">Upload New File</button>
+                    `
+                }
+            ],
+            student: [
+                {
+                    title: "My Courses",
+                    icon: "fas fa-book",
+                    content: `
+                        <div class="stats">
+                            <div class="stat-item student-stat">
+                                <div class="stat-number">5</div>
+                                <div class="stat-label">Enrolled Courses</div>
+                            </div>
+                            <div class="stat-item student-stat">
+                                <div class="stat-number">87%</div>
+                                <div class="stat-label">Overall Progress</div>
+                            </div>
+                        </div>
+                        <ul class="activity-list">
+                            <li><i class="fas fa-chalkboard"></i> Mathematics at 9:00 AM</li>
+                            <li><i class="fas fa-flask"></i> Science Lab at 1:00 PM</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">View All Courses</a>
+                    `
+                },
+                {
+                    title: "Assignments",
+                    icon: "fas fa-tasks",
+                    content: `
+                        <div class="stats">
+                            <div class="stat-item student-stat">
+                                <div class="stat-number">2</div>
+                                <div class="stat-label">Due This Week</div>
+                            </div>
+                            <div class="stat-item student-stat">
+                                <div class="stat-number">1</div>
+                                <div class="stat-label">Pending Submission</div>
+                            </div>
+                        </div>
+                        <ul class="activity-list">
+                            <li><i class="fas fa-file-alt"></i> Math Problem Set - Due Tomorrow</li>
+                            <li><i class="fas fa-book"></i> Literature Essay - Due in 3 days</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">View All Assignments</a>
+                    `
+                },
+                {
+                    title: "Performance",
+                    icon: "fas fa-chart-line",
+                    content: `
+                        <p>Your current performance across all courses</p>
+                        <div class="stats">
+                            <div class="stat-item student-stat">
+                                <div class="stat-number">92%</div>
+                                <div class="stat-label">Mathematics</div>
+                            </div>
+                            <div class="stat-item student-stat">
+                                <div class="stat-number">85%</div>
+                                <div class="stat-label">Science</div>
+                            </div>
+                            <div class="stat-item student-stat">
+                                <div class="stat-number">78%</div>
+                                <div class="stat-label">Literature</div>
+                            </div>
+                            <div class="stat-item student-stat">
+                                <div class="stat-number">88%</div>
+                                <div class="stat-label">History</div>
+                            </div>
+                        </div>
+                    `
+                },
+                {
+                    title: "Study Groups",
+                    icon: "fas fa-users",
+                    content: `
+                        <p>Join discussion groups with fellow students.</p>
+                        <ul class="activity-list">
+                            <li><i class="fas fa-user-friends"></i> Mathematics Study Group</li>
+                            <li><i class="fas fa-user-friends"></i> Science Club</li>
+                            <li><i class="fas fa-user-friends"></i> Literature Circle</li>
+                        </ul>
+                        <button class="btn btn-primary" style="margin-top: 15px;">Join a Group</button>
+                    `
+                }
+            ],
+            parent: [
+                {
+                    title: "Children's Progress",
+                    icon: "fas fa-user-graduate",
+                    content: `
+                        <div class="stats">
+                            <div class="stat-item parent-stat">
+                                <div class="stat-number">2</div>
+                                <div class="stat-label">Children</div>
+                            </div>
+                            <div class="stat-item parent-stat">
+                                <div class="stat-number">87%</div>
+                                <div class="stat-label">Average Performance</div>
+                            </div>
+                        </div>
+                        <ul class="activity-list">
+                            <li><i class="fas fa-user"></i> Emily - Mathematics: 92%</li>
+                            <li><i class="fas fa-user"></i> Emily - Science: 85%</li>
+                            <li><i class="fas fa-user"></i> Michael - Mathematics: 88%</li>
+                            <li><i class="fas fa-user"></i> Michael - History: 91%</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "Fee Statements",
+                    icon: "fas fa-receipt",
+                    content: `
+                        <div class="stats">
+                            <div class="stat-item parent-stat">
+                                <div class="stat-number">$450</div>
+                                <div class="stat-label">Current Balance</div>
+                            </div>
+                            <div class="stat-item parent-stat">
+                                <div class="stat-number">$1200</div>
+                                <div class="stat-label">Total Paid</div>
+                            </div>
+                        </div>
+                        <ul class="activity-list">
+                            <li><i class="fas fa-file-invoice-dollar"></i> Tuition Fee - October</li>
+                            <li><i class="fas fa-file-invoice-dollar"></i> Laboratory Fee</li>
+                            <li><i class="fas fa-file-invoice-dollar"></i> Excursion Payment</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">View Full Statements</a>
+                    `
+                },
+                {
+                    title: "School Announcements",
+                    icon: "fas fa-bullhorn",
+                    content: `
+                        <ul class="activity-list">
+                            <li><i class="fas fa-info-circle"></i> School will be closed on Nov 23</li>
+                            <li><i class="fas fa-utensils"></i> New lunch menu available</li>
+                            <li><i class="fas fa-bus"></i> Bus schedule updated for winter</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "Teacher Discussions",
+                    icon: "fas fa-comments",
+                    content: `
+                        <p>Communicate with your child's teachers.</p>
+                        <ul class="activity-list">
+                            <li><i class="fas fa-comment"></i> Message from Mathematics Teacher</li>
+                            <li><i class="fas fa-comment"></i> Science project update</li>
+                            <li><i class="fas fa-comment"></i> Parent-teacher meeting reminder</li>
+                        </ul>
+                        <button class="btn btn-primary" style="margin-top: 15px;">Contact Teacher</button>
+                    `
+                }
+            ],
+            nonstaff: [
+                {
+                    title: "Resource Access",
+                    icon: "fas fa-lock-open",
+                    content: `
+                        <p>Available resources and tools</p>
+                        <ul class="activity-list">
+                            <li><i class="fas fa-book"></i> Library Resources</li>
+                            <li><i class="fas fa-print"></i> Printing Services</li>
+                            <li><i class="fas fa-wifi"></i> Guest WiFi Access</li>
+                            <li><i class="fas fa-parking"></i> Parking Permit</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "Campus Information",
+                    icon: "fas fa-info-circle",
+                    content: `
+                        <ul class="activity-list">
+                            <li><i class="fas fa-clock"></i> Campus Hours: 7:00 AM - 7:00 PM</li>
+                            <li><i class="fas fa-map-marker-alt"></i> Main Office: Building A, Room 101</li>
+                            <li><i class="fas fa-phone"></i> Contact: (555) 123-4567</li>
+                        </ul>
+                        <a href="#" class="btn btn-primary">Download Campus Map</a>
+                    `
+                },
+                {
+                    title: "Upcoming Events",
+                    icon: "fas fa-calendar",
+                    content: `
+                        <ul class="activity-list">
+                            <li><i class="fas fa-graduation-cap"></i> Career Day - Nov 18</li>
+                            <li><i class="fas fa-handshake"></i> Community Meeting - Nov 22</li>
+                            <li><i class="fas fa-tree"></i> Holiday Festival - Dec 15</li>
+                        </ul>
+                    `
+                },
+                {
+                    title: "Download Notes",
+                    icon: "fas fa-download",
+                    content: `
+                        <p>Access learning materials and notes.</p>
+                        <ul class="activity-list">
+                            <li><i class="fas fa-file-pdf"></i> School Handbook.pdf</li>
+                            <li><i class="fas fa-file-word"></i> Campus Regulations.docx</li>
+                            <li><i class="fas fa-file-powerpoint"></i> Event Calendar.pptx</li>
+                        </ul>
+                        <button class="btn btn-primary" style="margin-top: 15px;">Download All</button>
+                    `
+                }
+            ]
+        };
+
+        // Welcome messages for each category
+        const welcomeMessages = {
+            admin: "System administration dashboard with full control over the platform.",
+            teacher: "Track your courses, assignments, and student performance.",
+            student: "Access your courses, assignments, and track your learning progress.",
+            parent: "Monitor your children's academic progress and school activities.",
+            nonstaff: "Access resources and information about the campus facilities."
+        };
+
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set user data
+            document.getElementById('userName').textContent = userData.fullname;
+            document.getElementById('userEmail').textContent = userData.email;
+            document.getElementById('userInitials').textContent = userData.fullname.charAt(0);
+            document.getElementById('welcomeName').textContent = userData.fullname;
+            
+            // Set category-specific content
+            const category = userData.category;
+            const categoryBadge = document.getElementById('categoryBadge');
+            categoryBadge.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+            categoryBadge.classList.add(`${category}-badge`);
+            
+            document.getElementById('welcomeMessage').textContent = welcomeMessages[category];
+            
+            // Generate sidebar menu
+            const sidebarMenu = document.getElementById('sidebarMenu');
+            menuItems[category].forEach(item => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <a href="#" class="${item.active ? 'active' : ''}">
+                        <i class="${item.icon}"></i>
+                        <span>${item.label}</span>
+                    </a>
+                `;
+                sidebarMenu.appendChild(li);
+            });
+            
+            // Generate dashboard content
+            const dashboardGrid = document.getElementById('dashboardGrid');
+            dashboardContent[category].forEach(item => {
+                const card = document.createElement('div');
+                card.className = `card ${category}-card`;
+                card.innerHTML = `
+                    <h3><i class="${item.icon}"></i> ${item.title}</h3>
+                    ${item.content}
+                `;
+                dashboardGrid.appendChild(card);
+            });
+
+            // Add event listeners for modals
+            if (category === 'admin') {
+                document.getElementById('addUserBtn').addEventListener('click', function() {
+                    document.getElementById('addUserModal').style.display = 'flex';
+                });
+                
+                document.getElementById('postDiscussionBtn').addEventListener('click', function() {
+                    document.getElementById('postDiscussionModal').style.display = 'flex';
+                });
+            }
+
+            // Close modals
+            document.querySelectorAll('.close-modal, .btn-danger').forEach(button => {
+                button.addEventListener('click', function() {
+                    document.querySelectorAll('.modal').forEach(modal => {
+                        modal.style.display = 'none';
+                    });
+                });
+            });
+
+            // Form submissions
+            document.getElementById('addUserForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('User added successfully!');
+                document.getElementById('addUserModal').style.display = 'none';
+            });
+            
+            document.getElementById('postDiscussionForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Discussion posted successfully!');
+                document.getElementById('postDiscussionModal').style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>      transform: translateX(5px); 
     }
     
     .feature-list i {
@@ -745,3 +1672,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
+
