@@ -1,55 +1,90 @@
 <?php
 header('Content-Type: application/json');
-include 'config.php'; // Connects to MySQL
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+// Database connection settings
+$host = 'localhost';
+$db   = 'greater_heights';
+$user = 'root'; // Changed from 'Smart Curriculum' to avoid potential issues
+$pass = 'Vajoresko2'; // your MySQL password
+$charset = 'utf8mb4';
 
-    // Get POST data and sanitize
-    $name = trim($_POST['name']);
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
-    $category = $_POST['category'];
-    $extra_field = isset($_POST['extra_field']) ? trim($_POST['extra_field']) : '';
+$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 
-    // Basic validation
-    if (!$name || !$email || !$password || !$category) {
-        echo json_encode(['status'=>'error','message'=>'Please fill all required fields']);
-        exit;
-    }
+$options = [
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES   => false,
+];
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo json_encode(['status'=>'error','message'=>'Invalid email address']);
-        exit;
-    }
+try {
+    $pdo = new PDO($dsn, $user, $pass, $options);
+} catch (\PDOException $e) {
+    error_log("Database connection failed: " . $e->getMessage());
+    echo json_encode(['status' => 'error', 'message' => 'Database connection failed']);
+    exit;
+}
 
-    // Check if email already exists
-    $stmt = $conn->prepare("SELECT id FROM users WHERE email=?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $stmt->store_result();
+// Retrieve and sanitize POST data
+$category = trim($_POST['category'] ?? '');
+$fullname = trim($_POST['fullname'] ?? '');
+$email    = trim($_POST['email'] ?? '');
+$password = $_POST['password'] ?? '';
+$extra_field = null;
 
-    if ($stmt->num_rows > 0) {
+// Validate required fields
+if (empty($category) || empty($fullname) || empty($email) || empty($password)) {
+    echo json_encode(['status'=>'error','message'=>'Please fill in all required fields']);
+    exit;
+}
+
+// Validate email format
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo json_encode(['status'=>'error','message'=>'Please provide a valid email address']);
+    exit;
+}
+
+// Hash password
+$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+// Handle category-specific fields
+switch ($category) {
+    case 'admin':
+        $extra_field = trim($_POST['admincode'] ?? '');
+        break;
+    case 'teacher':
+        $extra_field = trim($_POST['subject'] ?? '');
+        break;
+    case 'student':
+        $extra_field = trim($_POST['class'] ?? '');
+        break;
+    case 'parent':
+        $extra_field = trim($_POST['childname'] ?? '');
+        break;
+    case 'nonstaff':
+        $extra_field = '';
+        break;
+    default:
+        $extra_field = '';
+}
+
+// Check if email already exists
+try {
+    $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    if ($stmt->rowCount() > 0) {
         echo json_encode(['status'=>'error','message'=>'Email already registered']);
         exit;
     }
-    $stmt->close();
-
-    // Hash password
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Insert user
-    $stmt = $conn->prepare("INSERT INTO users (name,email,password,category,extra_field) VALUES (?,?,?,?,?)");
-    $stmt->bind_param("sssss", $name, $email, $hashed_password, $category, $extra_field);
-
-    if ($stmt->execute()) {
-        echo json_encode(['status'=>'success','message'=>'Account created successfully!']);
+    $stmt = $pdo->prepare("INSERT INTO users (category, fullname, email, password, extra_field) VALUES (?, ?, ?, ?, ?)");
+    if ($stmt->execute([$category, $fullname, $email, $hashedPassword, $extra_field])) {
+        echo json_encode(['status'=>'success','message'=>'Account created successfully']);
     } else {
-        echo json_encode(['status'=>'error','message'=>'Database error: '.$stmt->error]);
+        echo json_encode(['status'=>'error','message'=>'Failed to create account']);
     }
-    $stmt->close();
-    $conn->close();
-
-} else {
-    echo json_encode(['status'=>'error','message'=>'Invalid request method']);
+} catch (PDOException $e) {
+    error_log("Database error: " . $e->getMessage());
+    echo json_encode(['status'=>'error','message'=>'A system error occurred. Please try again later.']);
 }
 ?>
