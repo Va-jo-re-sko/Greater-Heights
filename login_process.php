@@ -19,44 +19,72 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (\PDOException $e) {
-    echo json_encode(['status'=>'error','message'=>'Database connection failed']);
+    error_log("Database connection failed: " . $e->getMessage());
+    echo json_encode(['status'=>'error','message'=>'Database connection failed. Please try again later.']);
     exit;
 }
 
 // Retrieve POST data
 $email = $_POST['email'] ?? '';
 $password = $_POST['password'] ?? '';
+$remember = isset($_POST['remember']) ? true : false;
 
+// Validate input
 if (!$email || !$password) {
     echo json_encode(['status'=>'error','message'=>'Please fill in all fields']);
     exit;
 }
 
-// Check if the user exists
-$stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
-$stmt->execute([$email]);
-$user = $stmt->fetch();
-
-if (!$user) {
-    echo json_encode(['status'=>'error','message'=>'Email not found']);
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    echo json_encode(['status'=>'error','message'=>'Please provide a valid email address']);
     exit;
 }
 
-// Verify password
-if (!password_verify($password, $user['password'])) {
-    echo json_encode(['status'=>'error','message'=>'Incorrect password']);
-    exit;
+try {
+    // Check if the user exists
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    $user = $stmt->fetch();
+
+    if (!$user) {
+        echo json_encode(['status'=>'error','message'=>'Email not found']);
+        exit;
+    }
+
+    // Verify password
+    if (!password_verify($password, $user['password'])) {
+        echo json_encode(['status'=>'error','message'=>'Incorrect password']);
+        exit;
+    }
+
+    // Login successful - start session
+    session_start();
+    
+    // Regenerate session ID to prevent fixation attacks
+    session_regenerate_id(true);
+    
+    // Set session variables
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['fullname'] = $user['fullname'];
+    $_SESSION['category'] = $user['category'];
+    $_SESSION['email'] = $user['email'];
+    $_SESSION['last_login'] = time();
+
+    // Set longer session if "remember me" is checked
+    if ($remember) {
+        // Extend session cookie to 30 days
+        $lifetime = 60 * 60 * 24 * 30; // 30 days
+        session_set_cookie_params($lifetime);
+    }
+
+    echo json_encode([
+        'status' => 'success',
+        'message' => 'Login successful! Redirecting...',
+        'category' => $user['category']
+    ]);
+    
+} catch (Exception $e) {
+    error_log("Login error: " . $e->getMessage());
+    echo json_encode(['status'=>'error','message'=>'An error occurred during login. Please try again.']);
 }
-
-// Login successful, return user info (can be used for session)
-session_start();
-$_SESSION['user_id'] = $user['id'];
-$_SESSION['fullname'] = $user['fullname'];
-$_SESSION['category'] = $user['category'];
-
-echo json_encode([
-    'status' => 'success',
-    'message' => 'Login successful!',
-    'category' => $user['category']
-]);
 ?>
